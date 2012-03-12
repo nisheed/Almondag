@@ -1,0 +1,118 @@
+Almondag
+(Alert Monitoring Dashboard and Aggregator)
+
+We have many conventional monitoring & alert management software that does various classes of service like monitoring, alerting, analysis, etc. Almondag falls in many classes but with some unique features that are quite challenging and useful for the organization’s dynamic monitoring of massive number of systems. These features help the system to manage, aggregate and correlate the alerts to predict the possible cause of a high lever issue. 
+The most prominent one, which is called alert aggregator, gives you a hint about the root cause of a high level alert. This is done by setting relations between checks defined for component. Another module ‘which is called client conf manager’ enables the administrator to configure the alerts for clients to be configured on the server. This conf is shared on the web. All the clients can read this and filter out their checks and execute them.
+
+Features of the Project
+Alert Aggregator: Almondag identifies the relationships set between services configured and notifies intelligently pointing out the possible failure points. This reduces the time taken to triage a high level alert considerably.
+
+Client conf Manager: Almondag allows to deploy the services and checks that are monitored at the clients from the server itself. This feature enables the admin to create/modify new checks and service monitoring without logging on to the clients.
+
+Alert Manipulator: The current monitoring mechanism does not allow the manipulation of alerts. Almondag takes care of it by allowing the admin to switch off/on or snooze the alerts from monitoring and notification.
+
+Fast data retrieval: Almondag uses memcac technology for caching the client data on the server. The server stores the client data into memcache, which is a named primary memory area. Whenever a user queries for data through a dashboard or alert console these data are read from the memcache and displayed.
+
+Open source: This system is built completely in open source software. 
+
+Prerequisites
+MySQL 5.1.30: The database used for this project. MySQL is a relational database management system (RDBMS)[1]  that runs as a server providing multi-user access to a number of databases. It uses the default MyISAM engine.
+
+Perl 5.8: This language here is used for socket programming and Memcache handling.
+It is a high-level, general-purpose, interpreted, dynamic programming language. Perl was originally developed by Larry Wall in 1987 as a general-purpose Unix scripting language to make report processing easier. Since then, it has undergone many changes and revisions and become widely popular amongst programmers.
+Perl borrows features from other programming languages including C, shell scripting (sh), AWK, and sed. The language provides powerful text processing facilities without the arbitrary data length limits of many contemporary Unix tools, facilitating easy manipulation of text files. It is also used for graphics programming, system administration, network programming, applications that require database access and CGI programming on the Web. Perl is nicknamed "the Swiss Army chainsaw of programming languages" due to its flexibility and adaptability.
+
+PHP 5.2.8: Used for server side web processing. PHP iss a widely used, general-purpose scripting language that was originally designed for web development to produce dynamic web pages. For this purpose, PHP code is embedded into the HTML source document and interpreted by a web server with a PHP processor module, which generates the web page document. 
+As a general-purpose programming language, PHP code is processed by an interpreter application in command-line mode performing desired operating system operations and producing program output on its standard output channel. It may also function as a graphical application. PHP is available as a processor for most modern web servers and as standalone interpreter on most operating systems and computing platforms.
+
+memcached-1.4.4: This is the mechanism used for caching the check results from clients for high availability. It is a general-purpose distributed memory caching system that was originally developed by Danga Interactive for LiveJournal, but is now used by many other sites. It is often used to speed up dynamic database-driven websites by caching data and objects in RAM  to reduce the number of times an external data source (such as a database or API) must be read. Memcached runs on Unix, Windows and MacOS and is distributed under a permissive free software license. 
+Memcached's APIs provide a giant hash table distributed across multiple machines. When the table is full, subsequent inserts cause older data to be purged in least recently used (LRU) order. Applications using memcached typically layer memcached requests and additions into core before falling back on a slower backing store, such as a database. The package contains the daemon that manages the Memcache system. 
+
+
+libevent-1.4.13-stable : from http://www.monkey.org/~provos/libevent/ . This package is a prerequisite for memcached.
+
+Cache::Memcached CPAN Module: This module is required by Perl to communicate with Memcache.
+
+DBI and DBD::mysql CPAN Modules: These are the modules that enables Database operations through Perl.
+
+
+Project Packages
+5.1.1 almondag_server
+This is the server package to be installed on the server.  
+adg_collector.pl: The program that connects to each of the nodes, gets data and update the local Memcache. 
+adg_shared_checks.pl: Queries the database table ‘tbl_check_type’ for the location ‘server’ and append to a text file to share it though web. It takes the format,
+node_type:chk_name:check 
+(eg:- WEB:sys_logins:`w | egrep –vi ‘load|IDLE’ | wc -l`)
+*.php, *.html:  The main GUI web pages. 
+*.css: is a style sheet language used to describe the presentation semantics (that is, the look and formatting) of a document written in a markup language. Its most common application is to style web pages  written in HTML  and XHTML, but the language can also be applied to any kind of XML document, including SVG and XUL. CSS is designed primarily to enable the separation of document content (written in HTML or a similar markup language) from document presentation, including elements such as the layout, colors, and fonts. This separation can improve content accessibility, provide more flexibility and control in the specification of presentation characteristics, enable multiple pages to share formatting, and reduce complexity and repetition in the structural content (such as by allowing for tableless web design).
+
+adg_server.log : It is a plain text log file to keep a record of the activities and errors on the server. It has timestamps associated with each of the entry.
+
+5.1.2 almondag_client
+bin/adg_listener.pl: this program is run as a daemon on all the clients always listening on the port 1980 where the server connects and issue commands to get the data results of the checks performed on the clients.
+
+bin/adg_runchecks.pl: this program is the one that gathers all data and keep the result in a central plain text file for delivery. 
+
+checks/*: this directory on the clients contains all the checks. One file per check. The file will carry the check’s name. eg:- apache_utilization, sys_openports etc
+
+data/adg_client.dat: this file holds the data collected by adg_runchecks.pl.
+
+log/adg_client.log: this is the client log for Almondag.
+
+CHAPTER 6
+TESTING
+
+Bugs are everywhere .Their realm extends beyond the real world into the digital world of computers also. The only difference is, in the world of computers bugs are of a different kind. They are syntactic or logical errors, malfunctioning of a resource etcetera, which prevents programs from the way they are supposed to run.
+
+The elimination of syntactical bug is the process of debugging whereas the detection and elimination of logical bugs is ‘testing’. 
+
+For testing we adopt the ‘Black box’ testing strategy. It is a strategy wherein we try various inputs and examine the resulting output; thereby learning what the box does but by not exposing how this conversion is implemented. The Black box testing technique works well in a web application  environment and hence has been selected.
+
+6.1 TEST CASES 
+1. When a high lever alert has appeared the aggregator predicts the possible root cause.
+Manually simulated a low level alert and later a high level alert. Make sure that these had a relation set. The high level alert came out successfully indicating the root cause as the first alert in the relation tree.
+ 
+
+SUMMARY
+
+The project report contains the research and the references used to establish the infrastructure using “Alert monitoring Dashboard and Aggregator”. This contains the study and the design plans which were the subject to implement. There are plans to further expand this system to store history data of the alerts and dashboard using RRD. 
+Whilst considering the limitation of the technology being used there are further researches being done to expand; the plans are to implement the system for the use in the existing product making the administration of a large production environment easy and scalable. 
+
+
+CONCLUSIONS AND RECOMMENDATIONS
+Working on the project Almondag has been an enriching experience. It has definitely increased our documentation, presentation and coding skills but more importantly; engrained in us the essentials of team work. 
+This project is significant as it uses the contemporary programming tools and combines it with the Memcached to provide a high speed of access and reliability. The software and hardware needed to execute the project are easy available .The User interface is simple and friendly.
+I Would like to include RRD as a mechanism to store historical data for adding trend analysis feature to the project
+This project has prepared us for meeting more challenges in the world of computers.
+
+
+DIRECTIONS FOR FUTURE WORK
+While communication has been an ongoing demand and the need to create more had taken the first place the expandability of the system is also subject to evolve. The plans are to implement Round Robin Database (RRD) is in the pipeline of development. Also a thought to develop more complex GUI for handling dynamic additions of checks and check categories is also being considered. The next level of implementation is expected to be more robust and more features including historical data analysis capability.
+
+
+BIBLIOGRAPHY & REFERENCES 
+Books:
+1. Programming Perl 
+by Larry Wall / Tom Christiansen / Jon Orwant, O'Reilly
+2. Programming PHP 
+by Rasmus ,Kevin ,Peter, O'Reilly
+3. Advance Perl Programming
+by Simon Cozens, O'Reilly
+4. PHP6, Apache, MySQL development
+Timothy Boronczyk, Yann Le Scouarnec, Elizabeth Naramore, Jeremy Stolz, Jason Gerner
+
+URLs:
+5. http://memcached.org/
+6. http://dev.mysql.com/doc/refman/5.1/en/myisam-storage-engine.html
+7. http://search.cpan.org/~capttofu/DBD-mysql-4.013/lib/DBD/mysql.pm
+8. http://search.cpan.org/~bradfitz/Cache-Memcached-1.28/lib/Cache/Memcached.pm
+9. http://perldoc.perl.org/functions/alarm.html
+
+APPENDIX A
+Glossary
+
+Memcache:  It is a general-purpose distributed memory caching system is often used to speed up dynamic database-driven websites by caching data and objects in RAM  to reduce the number of times an external data source (such as a database or API) must be read.
+MyISAM: The native storage engine for MySQL database 
+Socket: A socket is a mean of programmatically interconnecting two computers. A socket id identified by ‘hostname:port’ pair.
+RRD: Round Robin Database. A simple DB to store static data. RRD accepts simple queries to get the data out and can be associated to a graph.
+
