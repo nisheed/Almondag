@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/bin/df -h / | grep -v 'Capacity' | awk '{print $5}' | sed 's/\%//'

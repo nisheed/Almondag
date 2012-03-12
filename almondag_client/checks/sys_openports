@@ -1,0 +1,13 @@
+#!/opt/local/bin/perl
+
+use strict;
+
+my $out = `/usr/sbin/netstat -atn -f inet | grep LISTEN | awk '{print \$4}' `;
+my @lines = split(/\n/,$out);
+
+$out = '';
+foreach (@lines) {
+   /.*\.(\d+)$/;
+   $out .= $1 . ",";
+}
+print $out . "\n";

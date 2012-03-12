@@ -1,0 +1,31 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+#::1             localhost 
+#fe80::1%lo0	localhost
+
+
+127.0.0.1	web101.example.com
+127.0.0.1	web102.example.com
+127.0.0.1	web105.example.com
+127.0.0.1	mta501.example.com
+127.0.0.1	mac504.example.com
+127.0.0.1	db0.example.com
+127.0.0.1	db7.example.com	
+127.0.0.1	db08.example.com
+127.0.0.1	db09.example.com
+127.0.0.1	proxy01.example.com	
+127.0.0.1	proxy02.example.com	
+
+
+127.0.0.1	almondag.example.com
+
+
+#206.190.60.37	www.in.yahoo.com
+#68.142.199.146	f815-f.mail.vip.mud.yahoo.com	
+#68.142.199.146	f815-a.mail.vip.mud.yahoo.com	

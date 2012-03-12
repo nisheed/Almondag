@@ -1,0 +1,7 @@
+any:sys_cpu:uptime | filter it
+any:sys_mem:vmstat | filter it
+any:sys_load:uptime | filter it
+any:sys_timezone:/bin/date "+%Z"
+proxy:cust_file_present:ls /abc/xyz | wc -l
+any:sys_disk:/bin/df -h / | /usr/bin/grep -v Used | /usr/bin/awk '{print \$5}'
+proxy:cust_cacheage:ls -lT /var/cache
