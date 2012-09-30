@@ -1,5 +1,6 @@
 Almondag
 (Alert Monitoring Dashboard and Aggregator)
+-------------------------------------------
 
 We have many conventional monitoring & alert management software that does various classes of service like monitoring, alerting, analysis, etc. Almondag falls in many classes but with some unique features that are quite challenging and useful for the organization’s dynamic monitoring of massive number of systems. These features help the system to manage, aggregate and correlate the alerts to predict the possible cause of a high lever issue. 
 The most prominent one, which is called alert aggregator, gives you a hint about the root cause of a high level alert. This is done by setting relations between checks defined for component. Another module ‘which is called client conf manager’ enables the administrator to configure the alerts for clients to be configured on the server. This conf is shared on the web. All the clients can read this and filter out their checks and execute them.
